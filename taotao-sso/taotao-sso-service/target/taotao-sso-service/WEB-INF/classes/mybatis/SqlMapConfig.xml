@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- matatis 核心配置 -->
+
+
+<configuration>
+
+
+<!-- 别名配置  -->
+<typeAliases>
+<!-- 单个别名 不区分大小写 -->
+<!-- <typeAlias type=""/> -->
+<!--包扫描  不区分大小写-->
+<!-- <package name="pojo"/> -->
+
+</typeAliases>
+<plugins>
+<plugin interceptor="com.github.pagehelper.PageHelper">
+<!-- 配置方言（指定数据库） -->
+<property name="dialect" value="mysql"/>
+</plugin>
+
+
+</plugins>
+
+
+</configuration>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+      http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+     http://www.springframework.org/schema/context  
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+     <!-- 加载资源文件 -->
+     <context:property-placeholder location="classpath:resource.properties" />
+     
+     <!--包扫描 配置@controller扫描 -->
+      <context:component-scan base-package="taotao.portal.controller"></context:component-scan>
+ 
+      <!--配置驱动
+      
+           直接配置处理器映射器和处理器适配器比较麻烦，
+          可以使用注解驱动来加载。
+     SpringMVC使用<mvc:annotation-driven>自动加载RequestMappingHandlerMapping和RequestMappingHandlerAdapter
+          可以在springmvc.xml配置文件中使用<mvc:annotation-driven>替代注解处理器和适配器的配置。 动 
+           所以前面配置的处理器  适配器  不需要了
+     -->
+     <mvc:annotation-driven />
+     
+
+     <!-- 定义文件上传解析器 -->
+	 <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设定默认编码 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 设定文件上传的最大值5MB，5*1024*1024 -->
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean>
+     
+     <bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 配置逻辑视图的前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<!-- 配置逻辑视图的后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<!-- 配置资源映射  让网页中访问js或者其他资源时不必经过控制层 -->
+	
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/css/" mapping="/css/**"/>
+	
+	<!-- 引用dubbo服务 -->
+	<dubbo:application name="taotao-portal-web"/>
+	<dubbo:registry protocol="zookeeper" address="120.79.204.37:2181"/>	
+	<!-- <dubbo:reference interface="itemservice.Itemservice" id="itemService"/>
+	<dubbo:reference interface="itemservice.ItemCatService" id="itemCatService"/>
+	<dubbo:reference interface="itemservice.SerachService" id="serachService"/> -->
+	<dubbo:reference interface="content.service.IndexService" id="indexService"/>
+     </beans>

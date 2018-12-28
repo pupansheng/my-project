@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>taotao-portal-web</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+ <!-- 配置spring -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/application-*.xml</param-value>
+	</context-param>
+
+
+	 <!-- 配置监听器  让Web程序启动时 就加载  contextConfigLocation -->
+  <listener>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  
+  <filter>
+ <filter-name>encoding</filter-name>
+ <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+ <init-param>
+ <param-name>encoding</param-name>
+ <param-value>UTF-8</param-value>
+</init-param>
+ </filter>
+  <filter-mapping>
+  <filter-name>encoding</filter-name>
+  <url-pattern>*.action</url-pattern>
+  </filter-mapping>
+  
+  
+  
+  
+   <!-- springmvc 配置入门 -->
+   
+  <servlet>
+  
+  <servlet-name>springmvc</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  <!-- 若不配置 则默认加载 servlet名称——servlet.xml  比如这个项目   则是springmvc-servlet.xml -->
+  <init-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>classpath:spring/springmvc.xml</param-value>
+  </init-param>
+  <!-- 配置加载配置的时机 当为1时 则服务器启动就加载   若为-1 则第一次请求 在加载 -->
+  <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>springmvc</servlet-name>
+
+<!-- 
+ 1  /*  拦截所有请求 
+ 2  *.action *.do  拦截后缀为action do 的文件
+ 3  / 拦截所有文件  但不包括JSp   建议使用  对静态资源放行 推荐
+ --> 
+<url-pattern>*.action</url-pattern>
+
+</servlet-mapping>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</web-app>
